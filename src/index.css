@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/*para resetar as larguras minimas padrao de alguns navegadores*/
+*{
+    min-width: 0;
+}
