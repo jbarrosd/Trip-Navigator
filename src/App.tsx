@@ -1,4 +1,4 @@
-import {MapPin, Calendar, ArrowRight, UserRoundPlus, Settings2, X, AtSign, Plus} from "lucide-react";//importando icones do lucide-react
+import {MapPin, Calendar, ArrowRight, UserRoundPlus, Settings2, X, AtSign, Plus, User, Mail} from "lucide-react";//importando icones do lucide-react
 import { FormEvent, useState } from "react";
 
 
@@ -9,6 +9,7 @@ function App() {
   const [isInputOpen, setIsInputOPen] = useState(false);
   const [isModalOpen, setIsModalOPen] = useState(false);
   const [isSendEmailRequest, setIsSendEmailRequest] = useState([""]);
+  const [isConfirmModalTripOpen, setIsConfirmModalTripOpen] = useState(false);
 
   function inputOpen(){
     setIsInputOPen(true); // agora ele esta aberto e essa resposta vai refletir no isInputOpen
@@ -17,7 +18,6 @@ function App() {
   function inputClose(){
     setIsInputOPen(false); // agora ele esta fechado e essa resposta vai refletir no isInputOpen
   };
-
 
   function modalOpen(){
     setIsModalOPen(true);
@@ -63,6 +63,15 @@ function App() {
     setIsSendEmailRequest(newEmaiList);
  
   };
+
+  function confirmModalTripOpen(){
+    setIsConfirmModalTripOpen(true); // agora ele esta aberto e essa resposta vai refletir no isInputOpen
+  };
+
+  function confirmModalTripClose(){
+    setIsConfirmModalTripOpen(false); // agora ele esta fechado e essa resposta vai refletir no isInputOpen
+  };
+
 
   
 
@@ -119,14 +128,20 @@ function App() {
                   
                   <button type="button" onClick={modalOpen} className="flex items-center gap-2 flex-1">
                     <UserRoundPlus  className=" size-5 text-zinc-400"/>
+                   
+                  {/*se o meu envio de email for maior que 0 entao mostre a quantidade de pessoas convidadas por email, se nao for maior que 0, mostre... */}
+                   {isSendEmailRequest.length > 0 ? (
+                    <span className="text-zinc-100">{isSendEmailRequest.length} pessoa(s) convidada(s)</span>
+                   ) : (
                     <span className="text-zinc-400 text-lg flex-1 text-left">Terá companhia nesta viagem?</span>
+                   )}
                     
                   </button>
 
                   <div className="w-px h-6 bg-zinc-800"/>
 
-                    {/*onClick={InputOpen} significa que quando o butao é apertado vai fazer  */}
-                  <button className="bg-blue-400 text-blue-950 rounded-lg px-5 py-2 font-medium flex items-center gap-2 hover:bg-blue-300 " >
+                    {/*onClick={confirmModalTripOpen} significa que quando o butao é apertado vai confirmar a viagem e pegar as informacoes  */}
+                  <button onClick={confirmModalTripOpen} className="bg-blue-400 text-blue-950 rounded-lg px-5 py-2 font-medium flex items-center gap-2 hover:bg-blue-300 " >
                     Confirmar viagem
                     <ArrowRight className="size-5 text-blue-950"/>
                   </button>
@@ -202,6 +217,54 @@ function App() {
             </div>
         </div>
       )}
+
+
+      {isConfirmModalTripOpen && (
+           <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
+           {/*qunado quiser colocar ma valor que nao existe no taiwind */}
+           <div className="w-[640px] rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5">
+               
+               <div className="space-y-2">
+               
+                 <div className="flex items-center justify-between">
+                   <h2 className="text-lg font-semibold">Confirmar a viagem</h2>
+                   <button onClick={confirmModalTripClose}><X className="size-5 text-red-300"/></button>
+                 </div>
+
+                 <p className=" text-sm text-zinc-400">Para concluir a criação da viagem para <span className="font-semibold text-zinc-100">Florianópolis, Brasil</span> nas datas de <span className="font-semibold text-zinc-100">16 a 27</span> de Agosto de 2024 preencha seus dados abaixo:</p>
+               
+               
+               </div>
+
+
+               
+               
+
+                 {/*onSubmit={addNewEmailToInvite} = chamando a funcao */}
+               <form onSubmit={addNewEmailToInvite} className="space-y-3" >
+               
+                 <div className="py-2.5 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">{/*esse clasname na div jogou o botao para fora da caixa*/}
+                   <User className="text-zinc-400 size-5"/>
+                   <input type="text" name="name" placeholder="Digite seu nome completo" className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1" />
+                 </div>
+
+                 <div className="py-2.5 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">{/*esse clasname na div jogou o botao para fora da caixa*/}
+                   <Mail className="text-zinc-400 size-5"/>
+                   <input type="email" name="email" placeholder="Digite seu e-email pessoal" className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1" />
+                 </div>
+               
+               
+               {/*button type="submit"  é pra quando clicar no butao o onSubmit no form entender a que foi clicado */}
+                 <button type="submit" className="bg-blue-400 w-full justify-center text-blue-950 rounded-lg px-5 h-11 font-medium flex items-center gap-2 hover:bg-blue-300 " >
+                   Confirmar
+                 </button>
+               </form>
+
+           </div>
+       </div>
+      )}
+             
+      
     </div>
   );
 };
