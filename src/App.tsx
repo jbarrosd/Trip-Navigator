@@ -1,6 +1,6 @@
 import {createBrowserRouter, RouterProvider,} from "react-router-dom";
-import CreateTrip from "./pages/create-trip";
-import TripDetails from "./pages/trip-details";
+import CreateTrip from "./pages/create-trip/create-trip";
+import TripDetails from "./pages/trip-details/trip-details";
 
 function App() {
   

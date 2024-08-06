@@ -32,7 +32,6 @@ function CreateTrip() {
   function modalClose(){
     setIsModalOPen(false);
   };
-
   
   function addNewEmailToInvite(event: FormEvent<HTMLFormElement>){
       //impedindo da formulario ficar atualizando a page  
