@@ -1,5 +1,6 @@
 import { AtSign, Plus, X } from "lucide-react";
 import { FormEvent } from "react";
+import Button from "../../components/Button/button";
 
 //propriedades ira trazer as informacoes da pagina mae
 interface InviteGuestModalProps {
@@ -60,10 +61,12 @@ function InvitGuestModal({modalClose, isSendEmailRequest, addNewEmailToInvite,re
                         </div>
                         
                         {/*button type="submit"  é pra quando clicar no butao o onSubmit no form entender a que foi clicado */}
-                        <button type="submit" className="bg-blue-400 text-blue-950 rounded-lg px-5 py-2 font-medium flex items-center gap-2 hover:bg-blue-300 " >
+                        <Button  type="submit" btn_color_variant="btn_primary">
                             Convidar
                             <Plus className="size-5 text-blue-950"/>
-                        </button>
+                        </Button>
+
+                        
                     </form>
 
                 </div>

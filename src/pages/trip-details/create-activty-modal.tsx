@@ -1,5 +1,6 @@
 import { Calendar, Clock, Tag, X } from "lucide-react";
-import React from "react";
+import Button from "../../components/Button/button";
+
 
  
 interface CreatActivityModalProps{
@@ -55,10 +56,11 @@ function CreatActivityModal({closeCreateAtctivyModal}: CreatActivityModalProps) 
                 </div>
 
                 
-                {/*button type="submit"  é pra quando clicar no butao o onSubmit no form entender a que foi clicado */}
-                <button type="submit" className="bg-blue-400 w-full justify-center text-blue-950 rounded-lg px-5 h-11 font-medium flex items-center gap-2 hover:bg-blue-300 " >
+               
+                <Button btn_color_variant="btn_primary" btn_size="full">
                     Salvar Atividade
-                </button>
+                </Button>
+                  
             </form>
 
         </div>
