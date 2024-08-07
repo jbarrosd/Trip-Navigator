@@ -4,6 +4,7 @@ import InviteGuestModal from "./invite-guests-modal";
 import ConfirmTripModal from "./confirm-trip-modal";
 import DestinationAndDateStep from "./steps/destination-and-date-step";
 import InviteGuestsStep from "./steps/invite-guests-step";
+import img from "../../img/logo.png";
 
 
 function CreateTrip() {
@@ -91,7 +92,7 @@ function CreateTrip() {
       <div className="max-w-3xl w-full px-6 text-center space-y-10">
        
         <div className="flex flex-col items-center gap-3">
-            <img src="src/img/logo.png" alt="Logo da Trip Navegator" />
+            <img src={img} alt="Logo da Trip Navegator" />
             <p className="text-zinc-300 text-lg">Convide seus amigos e planeje sua próxima viagem!</p>
         </div>
           

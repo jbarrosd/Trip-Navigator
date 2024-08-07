@@ -18,7 +18,9 @@ function ConfirmTripModal({confirmModalTripClose, createTrip}: ConfirmTripModalP
                     
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-semibold">Confirmar a viagem</h2>
-                        <button onClick={confirmModalTripClose}><X className="size-5 text-red-300"/></button>
+                        <button >
+                            <X onClick={confirmModalTripClose} className="size-5 text-red-300"/>
+                        </button>
                     </div>
 
                     <p className=" text-sm text-zinc-400">Para concluir a criação da viagem para <span className="font-semibold text-zinc-100">Florianópolis, Brasil</span> nas datas de <span className="font-semibold text-zinc-100">16 a 27</span> de Agosto de 2024 preencha seus dados abaixo:</p>
