@@ -1,5 +1,5 @@
-import {  Plus} from "lucide-react";
-import { useState } from "react";
+import { Plus} from "lucide-react";
+import {useState } from "react";
 import CreatActivityModal from "./create-activty-modal";
 import ImportantsLinks from "./importants-links";
 import GuestsEmails from "./guests-emails";

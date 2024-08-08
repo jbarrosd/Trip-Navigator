@@ -4,10 +4,12 @@ import Button from "../../components/Button/button";
 
 
 interface ConfirmTripModalProps {
-    confirmModalTripClose: () => void
-    createTrip: (event: FormEvent<HTMLFormElement>) => void
+    confirmModalTripClose: () => void;
+    createTrip: (event: FormEvent<HTMLFormElement>) => void;
+    setOwnerName: (name: string) => void;
+    setOwnerEmail: (email: string) => void;
 }
-function ConfirmTripModal({confirmModalTripClose, createTrip}: ConfirmTripModalProps){
+function ConfirmTripModal({confirmModalTripClose, createTrip,setOwnerName, setOwnerEmail}: ConfirmTripModalProps){
 
     return(
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
@@ -33,12 +35,16 @@ function ConfirmTripModal({confirmModalTripClose, createTrip}: ConfirmTripModalP
                 
                     <div className="py-2.5 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">{/*esse clasname na div jogou o botao para fora da caixa*/}
                         <User className="text-zinc-400 size-5"/>
-                        <input type="text" name="name" placeholder="Digite seu nome completo" className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1" />
+                        <input type="text" name="name" placeholder="Digite seu nome completo" className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
+                            onChange={event => setOwnerName(event.target.value)}
+                        />
                     </div>
 
                     <div className="py-2.5 px-4 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">{/*esse clasname na div jogou o botao para fora da caixa*/}
                         <Mail className="text-zinc-400 size-5"/>
-                        <input type="email" name="email" placeholder="Digite seu e-email pessoal" className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1" />
+                        <input type="email" name="email" placeholder="Digite seu e-email pessoal" className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
+                            onChange={event => setOwnerEmail(event.target.value)}
+                        />
                     </div>
                     
                     

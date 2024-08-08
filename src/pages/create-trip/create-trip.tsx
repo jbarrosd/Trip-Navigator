@@ -5,7 +5,9 @@ import ConfirmTripModal from "./confirm-trip-modal";
 import DestinationAndDateStep from "./steps/destination-and-date-step";
 import InviteGuestsStep from "./steps/invite-guests-step";
 import img from "../../img/logo.png";
-
+import imgBack from "../../img/bg.png";
+import { DateRange } from "react-day-picker";
+import { api } from "../../lib/axios";
 
 function CreateTrip() {
   
@@ -17,6 +19,12 @@ function CreateTrip() {
   const [isConfirmModalTripOpen, setIsConfirmModalTripOpen] = useState(false);
 
   const navigate = useNavigate();
+
+  const [destination, setDestination] = useState("")
+  const [ownerName, setOwnerName] = useState("")
+  const [ownerEmail, setOwnerEmail] = useState("")
+  const [eventStartAndEndDates, setEventStartAndEndDates] = useState<DateRange | undefined>()
+
 
   function inputOpen(){
     setIsInputOPen(true); // agora ele esta aberto e essa resposta vai refletir no isInputOpen
@@ -80,14 +88,55 @@ function CreateTrip() {
 
   //criando rota para mudar de page, a funcaao createTrip fou colocada no butao de confirmar criacao da viagem
   //entao quando clicado laa, a pessoa sera direcionada para esta rota especificada
-  function createTrip(event: FormEvent<HTMLFormElement>){
+  
+  async function createTrip(event: FormEvent<HTMLFormElement>){
     event.preventDefault();
-    navigate("/trip/123")
+
+    if (!destination) {
+      return
+    }
+
+    if (!eventStartAndEndDates?.from || !eventStartAndEndDates?.to) {
+      return
+    }
+
+    //se o usuario nao convidou ninguem nao vai preencher o cadastro
+    if (isSendEmailRequest.length === 0) {
+      return
+    }
+
+    //se o usuario nao preencher o nome ou email nao vai preencher o cadastro
+    if (!ownerName || !ownerEmail) {
+      return
+    }
+    
+    //importando api
+    const response = await api.post("/trips", {
+      destination,
+      starts_at: eventStartAndEndDates.from,
+      ends_at: eventStartAndEndDates.to,
+      emails_to_invite: isSendEmailRequest,
+      owner_name: ownerName,
+      owner_email: ownerEmail
+    })
+
+    const { tripId } = response.data
+
+    navigate(`/trips/${tripId}`);
+    /*
+    console.log(destination)
+    console.log(ownerName)
+    console.log(ownerEmail)
+    console.log(eventStartAndEndDates)
+    console.log(isSendEmailRequest)
+  
+    */
+    
   };
   
 
   return (
-    <div className="h-screen flex items-center justify-center bg-backg">
+    <div className="h-screen flex items-center justify-center bg-backg" >
      
       <div className="max-w-3xl w-full px-6 text-center space-y-10">
        
@@ -99,17 +148,21 @@ function CreateTrip() {
         <div className="space-y-4">
            
             <DestinationAndDateStep
-                isInputOpen={isInputOpen}
-                inputOpen={inputOpen}
-                inputClose={inputClose}
+              isInputOpen={isInputOpen}
+              inputOpen={inputOpen}
+              inputClose={inputClose}
+              setDestination={setDestination}
+              setEventStartAndEndDates={setEventStartAndEndDates}
+              eventStartAndEndDates={eventStartAndEndDates}
+
             />
 
             {/*isInputOpen ? "aberto" : "fechado"} = mostra que acontece quando clico no butao apos colocar */}
               {isInputOpen && (
                 <InviteGuestsStep
-                    modalOpen={modalOpen}
-                    isSendEmailRequest={isSendEmailRequest}
-                    confirmModalTripOpen={confirmModalTripOpen}
+                  modalOpen={modalOpen}
+                  isSendEmailRequest={isSendEmailRequest}
+                  confirmModalTripOpen={confirmModalTripOpen}
                 />
               )}
         </div> 
@@ -124,18 +177,20 @@ function CreateTrip() {
       {isModalOpen && (
         //enviando as informacoes por props pra para a page InvitGuestModal
         <InviteGuestModal 
-            isSendEmailRequest={isSendEmailRequest}
-            addNewEmailToInvite={addNewEmailToInvite}
-            modalClose={modalClose}
-            removeEmailFromInvites={removeEmailFromInvites}
+          isSendEmailRequest={isSendEmailRequest}
+          addNewEmailToInvite={addNewEmailToInvite}
+          modalClose={modalClose}
+          removeEmailFromInvites={removeEmailFromInvites}
         />
       )}
 
 
       {isConfirmModalTripOpen && (
         <ConfirmTripModal 
-            confirmModalTripClose={confirmModalTripClose}
-            createTrip={createTrip}
+          confirmModalTripClose={confirmModalTripClose}
+          createTrip={createTrip}
+          setOwnerName={setOwnerName}
+          setOwnerEmail={setOwnerEmail}
         />
       )}
              

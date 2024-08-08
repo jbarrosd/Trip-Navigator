@@ -1,31 +1,68 @@
-import { CircleDashed, UserCog } from "lucide-react";
+import { CheckCircle, CheckCircle2, CircleDashed, UserCog } from "lucide-react";
 import Button from "../../components/Button/button";
+import { useParams } from "react-router-dom";
+import { api } from "../../lib/axios";
+import { useState, useEffect } from "react";
+
+interface Participant {
+    id: string;
+    name: string | null;
+    email: string;
+    is_confirmed: boolean;
+  }
 
 
 function GuestsEmails(){
+    const { tripId } = useParams()
+    const [participants, setParticipants] = useState<Participant[]>([])
+  
+    useEffect(() => {
+      api.get(`trips/${tripId}/participants`).then(response => setParticipants(response.data.participants))
+    }, [tripId])
+
     return(
         <div className="space-y-6">
             <h2 className="font-semibold text-xl">Convidados</h2>
 
             <div className="space-y-5">
+             
 
-                <div className="flex items-center justify-between gap-4">
-                    <div className="space-y-1.5">
-                        <span className="block font-medium text-zinc-100">Jean Barros </span>
-                        <span className="block text-sm text-zinc-400 truncate ">jbarrosdteste@outlook.com</span>
-                    </div>
-                    <CircleDashed className="text-zinc-400 size-5 shrink-0" />
-                </div>
+                 {participants.map((participant, index) => (
+                    <div key={participant.id} className="flex items-center justify-between gap-4">
+                        <div className="space-y-1.5">
+                            <span className="block font-medium text-zinc-100">{participant.name ?? `Convidado ${index}`}</span>
+                            <span className="block text-sm text-zinc-400 truncate">
+                                {participant.email}
+                            </span>
+                        </div>
 
-                <div className="flex items-center justify-between gap-4">
-                    <div className="space-y-1.5">
-                        <span className="block font-medium text-zinc-100">Ryatsui</span>
-                        <span className="block text-sm text-zinc-400 truncate ">ryatsui@gmail.com</span>
+                        {participant.is_confirmed ? (
+                        <CheckCircle className="text-blue-400 size-5 shrink-0" />
+                        ) : (
+                        <CircleDashed className="text-zinc-400 size-5 shrink-0" />
+                        )}
                     </div>
-                    <CircleDashed className="text-zinc-400 size-5 shrink-0" />
-                </div>
-            </div>
-        
+                ))}
+
+                    {/* <div className="flex items-center justify-between gap-4">
+                            <div className="space-y-1.5">
+                                <span className="block font-medium text-zinc-100">Jean Barros </span>
+                                <span className="block text-sm text-zinc-400 truncate ">jbarrosdteste@outlook.com</span>
+                            </div>
+                            <CircleDashed className="text-zinc-400 size-5 shrink-0" />
+                        </div>
+
+                        <div className="flex items-center justify-between gap-4">
+                            <div className="space-y-1.5">
+                                <span className="block font-medium text-zinc-100">Ryatsui</span>
+                                <span className="block text-sm text-zinc-400 truncate ">ryatsui@gmail.com</span>
+                            </div>
+                            <CircleDashed className="text-zinc-400 size-5 shrink-0" />
+                        </div>
+                    */}
+
+               
+            </div> 
            
 
             <Button btn_color_variant="btn_primary" btn_size="full">
